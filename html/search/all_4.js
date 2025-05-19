@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['listarantenas_0',['listarAntenas',['../funcoes_8c.html#a0cf296275af27ee1de8522e6cbcf1904',1,'listarAntenas(Antena *head):&#160;funcoes.c'],['../funcoes_8h.html#a0cf296275af27ee1de8522e6cbcf1904',1,'listarAntenas(Antena *head):&#160;funcoes.c']]],
-  ['localizacaonefasta_1',['LocalizacaoNefasta',['../struct_localizacao_nefasta.html',1,'']]]
+  ['efeitonef_0',['efeitoNef',['../funcoes_8c.html#a1c5c5085368d0eb1982103cadf7a7cdb',1,'efeitoNef(Antena *head):&#160;funcoes.c'],['../funcoes_8h.html#a1c5c5085368d0eb1982103cadf7a7cdb',1,'efeitoNef(Antena *head):&#160;funcoes.c']]],
+  ['encontravertice_1',['encontraVertice',['../grafos_8c.html#a34d48e320dbf533b36ef28212abebd0d',1,'encontraVertice(Vertice *grafo, int x, int y):&#160;grafos.c'],['../grafos_8h.html#a34d48e320dbf533b36ef28212abebd0d',1,'encontraVertice(Vertice *grafo, int x, int y):&#160;grafos.c']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: src/funcoes.h Source File</title>
+<title>My Project: Fase1/funcoes.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -130,30 +130,31 @@ $(function(){initNavTree('funcoes_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor"> #pragma endregion</span></div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor"> #pragma region Listar Antenas</span><span class="preprocessor"></span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> <span class="keywordtype">void</span> <a class="code hl_function" href="funcoes_8h.html#a0cf296275af27ee1de8522e6cbcf1904">listarAntenas</a>(<a class="code hl_struct" href="struct_antena.html">Antena</a>* head);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> <a class="code hl_struct" href="struct_antena.html">Antena</a>* <a class="code hl_function" href="funcoes_8h.html#a43dfd6c85af0f64cb662127c5276ed05">listarAntenas</a>(<a class="code hl_struct" href="struct_antena.html">Antena</a>* head);</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor"> #pragma endregion</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor"> #pragma region Mostrar Localizações com efeito nefasto</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> <span class="comment">//Antena* efeitoNef(Antena* head);</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor"> #pragma endregion</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor"> #endif</span></div>
-<div class="ttc" id="afuncoes_8h_html_a0cf296275af27ee1de8522e6cbcf1904"><div class="ttname"><a href="funcoes_8h.html#a0cf296275af27ee1de8522e6cbcf1904">listarAntenas</a></div><div class="ttdeci">void listarAntenas(Antena *head)</div><div class="ttdoc">(Não implementada) Lista as antenas numa tabela.</div><div class="ttdef"><b>Definition</b> funcoes.c:115</div></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor"> #pragma region Mostrar Localizações com efeito nefasto</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> <a class="code hl_struct" href="struct_localizacao_nefasta.html">LocalizacaoNefasta</a>* <a class="code hl_function" href="funcoes_8h.html#a1c5c5085368d0eb1982103cadf7a7cdb">efeitoNef</a>(<a class="code hl_struct" href="struct_antena.html">Antena</a>* head);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor"> #pragma endregion</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor"> #endif</span></div>
+<div class="ttc" id="afuncoes_8h_html_a1c5c5085368d0eb1982103cadf7a7cdb"><div class="ttname"><a href="funcoes_8h.html#a1c5c5085368d0eb1982103cadf7a7cdb">efeitoNef</a></div><div class="ttdeci">LocalizacaoNefasta * efeitoNef(Antena *head)</div><div class="ttdoc">Identifica e mostra localizações com efeito nefasto (antenas com mesma frequência a distância &lt;= 2).</div><div class="ttdef"><b>Definition</b> funcoes.c:128</div></div>
 <div class="ttc" id="afuncoes_8h_html_a35471234683ef7d40cd0de6c1356660f"><div class="ttname"><a href="funcoes_8h.html#a35471234683ef7d40cd0de6c1356660f">carregarAntenas</a></div><div class="ttdeci">Antena * carregarAntenas(const char *filename)</div><div class="ttdoc">Carrega antenas de um ficheiro de texto para a lista ligada.</div><div class="ttdef"><b>Definition</b> funcoes.c:45</div></div>
+<div class="ttc" id="afuncoes_8h_html_a43dfd6c85af0f64cb662127c5276ed05"><div class="ttname"><a href="funcoes_8h.html#a43dfd6c85af0f64cb662127c5276ed05">listarAntenas</a></div><div class="ttdeci">Antena * listarAntenas(Antena *head)</div><div class="ttdoc">Lista as antenas numa tabela.</div><div class="ttdef"><b>Definition</b> funcoes.c:115</div></div>
 <div class="ttc" id="afuncoes_8h_html_ad0aea9af1dae0284c0d9a9debbac6832"><div class="ttname"><a href="funcoes_8h.html#ad0aea9af1dae0284c0d9a9debbac6832">inserirAntena</a></div><div class="ttdeci">Antena * inserirAntena(Antena *head, char freq, int x, int y)</div><div class="ttdoc">Insere uma nova antena na lista ligada.</div><div class="ttdef"><b>Definition</b> funcoes.c:21</div></div>
-<div class="ttc" id="afuncoes_8h_html_ae7dc526f4142201f05760ae34b732f4e"><div class="ttname"><a href="funcoes_8h.html#ae7dc526f4142201f05760ae34b732f4e">removerAntena</a></div><div class="ttdeci">Antena * removerAntena(Antena *head, int x, int y)</div><div class="ttdoc">Remove uma antena da lista com base nas coordenadas X e Y.</div><div class="ttdef"><b>Definition</b> funcoes.c:83</div></div>
+<div class="ttc" id="afuncoes_8h_html_ae7dc526f4142201f05760ae34b732f4e"><div class="ttname"><a href="funcoes_8h.html#ae7dc526f4142201f05760ae34b732f4e">removerAntena</a></div><div class="ttdeci">Antena * removerAntena(Antena *head, int x, int y)</div><div class="ttdoc">Remove uma antena da lista com base nas coordenadas X e Y.</div><div class="ttdef"><b>Definition</b> funcoes.c:82</div></div>
 <div class="ttc" id="astruct_8h_html"><div class="ttname"><a href="struct_8h.html">struct.h</a></div><div class="ttdoc">Definição das estruturas para antenas e localizações nefastas, usadas no antenas.c.</div></div>
 <div class="ttc" id="astruct_antena_html"><div class="ttname"><a href="struct_antena.html">Antena</a></div><div class="ttdoc">Estrutura que representa uma antena numa cidade, com frequência e coordenadas.</div><div class="ttdef"><b>Definition</b> struct.h:16</div></div>
+<div class="ttc" id="astruct_localizacao_nefasta_html"><div class="ttname"><a href="struct_localizacao_nefasta.html">LocalizacaoNefasta</a></div><div class="ttdoc">Estrutura que guarda uma localização com efeito nefasto.</div><div class="ttdef"><b>Definition</b> struct.h:30</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="funcoes_8h.html">funcoes.h</a></li>
+    <li class="navelem"><a class="el" href="dir_f96b9d1b40af0bf329f57f6f896d1bd1.html">Fase1</a></li><li class="navelem"><a class="el" href="funcoes_8h.html">funcoes.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: src/funcoes.h File Reference</title>
+<title>My Project: Fase1/funcoes.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -125,9 +125,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ae7dc526f4142201f05760ae34b732f4e" id="r_ae7dc526f4142201f05760ae34b732f4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_antena.html">Antena</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7dc526f4142201f05760ae34b732f4e">removerAntena</a> (<a class="el" href="struct_antena.html">Antena</a> *head, int x, int y)</td></tr>
 <tr class="memdesc:ae7dc526f4142201f05760ae34b732f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove uma antena da lista com base nas coordenadas X e Y.  <br /></td></tr>
 <tr class="separator:ae7dc526f4142201f05760ae34b732f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cf296275af27ee1de8522e6cbcf1904" id="r_a0cf296275af27ee1de8522e6cbcf1904"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cf296275af27ee1de8522e6cbcf1904">listarAntenas</a> (<a class="el" href="struct_antena.html">Antena</a> *head)</td></tr>
-<tr class="memdesc:a0cf296275af27ee1de8522e6cbcf1904"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Não implementada) Lista as antenas numa tabela.  <br /></td></tr>
-<tr class="separator:a0cf296275af27ee1de8522e6cbcf1904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43dfd6c85af0f64cb662127c5276ed05" id="r_a43dfd6c85af0f64cb662127c5276ed05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_antena.html">Antena</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43dfd6c85af0f64cb662127c5276ed05">listarAntenas</a> (<a class="el" href="struct_antena.html">Antena</a> *head)</td></tr>
+<tr class="memdesc:a43dfd6c85af0f64cb662127c5276ed05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lista as antenas numa tabela.  <br /></td></tr>
+<tr class="separator:a43dfd6c85af0f64cb662127c5276ed05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c5c5085368d0eb1982103cadf7a7cdb" id="r_a1c5c5085368d0eb1982103cadf7a7cdb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_localizacao_nefasta.html">LocalizacaoNefasta</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c5c5085368d0eb1982103cadf7a7cdb">efeitoNef</a> (<a class="el" href="struct_antena.html">Antena</a> *head)</td></tr>
+<tr class="memdesc:a1c5c5085368d0eb1982103cadf7a7cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifica e mostra localizações com efeito nefasto (antenas com mesma frequência a distância &lt;= 2).  <br /></td></tr>
+<tr class="separator:a1c5c5085368d0eb1982103cadf7a7cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Declaração das funções para manipular antenas e localizações nefastas. </p>
@@ -163,6 +166,40 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Ponteiro para o início da lista ou NULL se der erro. </dd></dl>
+
+</div>
+</div>
+<a id="a1c5c5085368d0eb1982103cadf7a7cdb" name="a1c5c5085368d0eb1982103cadf7a7cdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c5c5085368d0eb1982103cadf7a7cdb">&#9670;&#160;</a></span>efeitoNef()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_localizacao_nefasta.html">LocalizacaoNefasta</a> * efeitoNef </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_antena.html">Antena</a> *</td>          <td class="paramname"><span class="paramname"><em>head</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Identifica e mostra localizações com efeito nefasto (antenas com mesma frequência a distância &lt;= 2). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">head</td><td>Ponteiro para o início da lista de antenas. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Antena* Ponteiro para a cabeça da lista (mantida inalterada).</dd></dl>
+<p>Identifica e mostra localizações com efeito nefasto (antenas com mesma frequência a distância &lt;= 2).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">head</td><td>Ponteiro para o início da lista de antenas. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Ponteiro para a cabeça da lista (mantém se igual). </dd></dl>
 
 </div>
 </div>
@@ -220,14 +257,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0cf296275af27ee1de8522e6cbcf1904" name="a0cf296275af27ee1de8522e6cbcf1904"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cf296275af27ee1de8522e6cbcf1904">&#9670;&#160;</a></span>listarAntenas()</h2>
+<a id="a43dfd6c85af0f64cb662127c5276ed05" name="a43dfd6c85af0f64cb662127c5276ed05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43dfd6c85af0f64cb662127c5276ed05">&#9670;&#160;</a></span>listarAntenas()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void listarAntenas </td>
+          <td class="memname"><a class="el" href="struct_antena.html">Antena</a> * listarAntenas </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_antena.html">Antena</a> *</td>          <td class="paramname"><span class="paramname"><em>head</em></span></td><td>)</td>
           <td></td>
@@ -235,7 +272,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>(Não implementada) Lista as antenas numa tabela. </p>
+<p>Lista as antenas numa tabela. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">head</td><td>Ponteiro para o início da lista de antenas. </td></tr>
@@ -243,13 +280,14 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p>Lista as antenas numa tabela.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">head</td><td>Ponteiro para o início da lista. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Antena* Ponteiro para o início da lista (inalterado). </dd></dl>
 
 </div>
 </div>
@@ -304,7 +342,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="funcoes_8h.html">funcoes.h</a></li>
+    <li class="navelem"><a class="el" href="dir_f96b9d1b40af0bf329f57f6f896d1bd1.html">Fase1</a></li><li class="navelem"><a class="el" href="funcoes_8h.html">funcoes.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.1 </li>
   </ul>
 </div>
