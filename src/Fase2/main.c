@@ -89,19 +89,6 @@ int main() {
         printf("Antena (9,9) não encontrada para DFS.\n");
     }
 
-    printf("\nBFS a partir de (9,9):\n");
-    Vertice *inicioBFS = encontraVertice(grafo, 9, 9);
-    if (inicioBFS) {
-        bfs(inicioBFS);
-    } else {
-        printf("Antena (9,9) não encontrada para BFS.\n");
-    }
-
-
-    printf("\nIntersecções entre frequências 'A' e '0':\n");
-    listarIntersecoes(grafo, 'A', '0');
-    printf("\n");
-
     // guardar o grafo num ficheiro binário
     printf("Grafo guardado em formato binário.\n");    
     guardarGrafoBinario("grafo.bin", grafo);

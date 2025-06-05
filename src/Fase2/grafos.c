@@ -58,44 +58,6 @@ Vertice* criarInserirVert(Vertice *grafo, Antena info) {
 
 #pragma region Remover Adjacências e Vértices
 
-#pragma region Funções auxiliares para arestas removidas
-
-// Lista global de arestas removidas
-ArestaRemovida *arestasRemovidas = NULL;
-
-/**
- * @brief Regista uma aresta removida na lista de arestas removidas.
- * @param origem Vértice de origem da aresta removida.
- * @param destino Vértice de destino da aresta removida.
- * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
- */
-int registrarArestaRemovida(Vertice *origem, Vertice *destino) {
-    ArestaRemovida *nova = (ArestaRemovida*)malloc(sizeof(ArestaRemovida));
-    if (nova == NULL) return -1;
-    nova->origem  = origem;
-    nova->destino = destino;
-    nova->proxima = arestasRemovidas;
-    arestasRemovidas = nova;
-    return 0;
-}
-
-/**
- * @brief Verifica se uma aresta foi removida.
- * @param origem Vértice de origem da aresta.
- * @param destino Vértice de destino da aresta.
- * @return 1 se a aresta foi removida, 0 caso contrário.
- */
-int isArestaRemovida(Vertice *origem, Vertice *destino) {
-    for (ArestaRemovida *a = arestasRemovidas; a != NULL; a = a->proxima) {
-        if (a->origem == origem && a->destino == destino) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-#pragma endregion
-
 /**
  * @brief Remove uma adjacência da lista de adjacências do vértice.
  * @param vertice Vértice onde a adjacência será removida.
@@ -103,20 +65,33 @@ int isArestaRemovida(Vertice *origem, Vertice *destino) {
  * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
  */
 int removerAdj(Vertice *vertice, Vertice *destino) {
-    Adj *atual = vertice->adj, *anterior = NULL;
-    while (atual) {
+    Adj *anterior = NULL;
+    Adj *atual = vertice->adj;
+
+    // Procurar a adjacência a remover
+    while (atual != NULL) {
         if (atual->destino == destino) {
-            if (anterior) anterior->proxima = atual->proxima;
-            else          vertice->adj     = atual->proxima;
-            registrarArestaRemovida(vertice, destino);
-            free(atual);
-            return 0;
+            break; // Encontrou a adjacência
         }
         anterior = atual;
-        atual    = atual->proxima;
+        atual = atual->proxima;
     }
-    return 1;
+
+    if (atual == NULL) {
+        return 1; // Não encontrado
+    }
+
+    // Remover a adjacência
+    if (anterior == NULL) {
+        vertice->adj = atual->proxima; // Era o primeiro
+    } else {
+        anterior->proxima = atual->proxima; // Remove do meio ou fim
+    }
+
+    free(atual);
+    return 0; // Sucesso
 }
+
 
 /**
  * @brief Remove um vértice da lista de vértices do grafo e elimina as arestas associadas.
@@ -129,55 +104,33 @@ Vertice* removerVertice(Vertice *grafo, int x, int y) {
     Vertice *anterior = NULL;
     Vertice *atual = grafo;
 
-    // procurar o vértice a remover
+    // Procurar o vértice a remover
     while (atual != NULL) {
         if (atual->info.x == x && atual->info.y == y) {
-            break;
+            break; // Encontrou o vértice
         }
         anterior = atual;
         atual = atual->proximo;
     }
 
     if (atual == NULL) {
-        return grafo; // nao encontrado
+        return grafo; // Vértice não encontrado, retorna o grafo original
     }
 
+    // Remover arestas associadas ao vértice
     for (Vertice *v = grafo; v != NULL; v = v->proximo) {
-        Adj *prev = NULL;
-        Adj *adj = v->adj;
-        while (adj != NULL) {
-            if (adj->destino == atual) {
-                // Remover a adjacência
-                if (prev == NULL) {
-                    v->adj = adj->proxima;
-                } else {
-                    prev->proxima = adj->proxima;
-                }
-                Adj *aRemover = adj;
-                adj = adj->proxima;
-                free(aRemover);
-            } else {
-                prev = adj;
-                adj = adj->proxima;
-            }
-        }
+        removerAdj(v, atual); // Remove arestas de outros vértices para este
     }
 
-    Adj *a = atual->adj;
-    while (a != NULL) {
-        Adj *seguinte = a->proxima;
-        free(a);
-        a = seguinte;
-    }
-
+    // Remover o vértice da lista
     if (anterior == NULL) {
-        grafo = atual->proximo; // era o primeiro
+        grafo = atual->proximo; // Era o primeiro vértice
     } else {
-        anterior->proximo = atual->proximo;
+        anterior->proximo = atual->proximo; // Remove do meio ou fim
     }
 
-    free(atual);
-    return grafo;
+    free(atual); // Libera memória do vértice removido
+    return grafo; // Retorna o novo início da lista de vértices
 }
 
 #pragma endregion
@@ -251,34 +204,17 @@ Vertice* encontraVertice(Vertice *grafo, int x, int y) {
  * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
  */
 int construirGrafo(Vertice *grafo) {
-    for (Vertice *v1 = grafo; v1 != NULL; v1 = v1->proximo) {
-        for (Vertice *v2 = grafo; v2 != NULL; v2 = v2->proximo) {
-            if (v1 != v2 && v1->info.frequencia == v2->info.frequencia) {
-                // Evita adicionar aresta duplicada ou recriar aresta removida
-                int jaLigado = 0;
-                for (Adj *adj = v1->adj; adj != NULL; adj = adj->proxima) {
-                    if (adj->destino == v2) {
-                        jaLigado = 1;
-                        break;
-                    }
-                }
-                if (!jaLigado && !isArestaRemovida(v1, v2)) {
-                    criarInserirAdj(v1, v2);
-                }
+    if (!grafo) return 1; // Se o grafo for NULL, retorna erro
+
+    for (Vertice *v = grafo; v; v = v->proximo) {
+        for (Vertice *u = grafo; u; u = u->proximo) {
+            if (v != u && (v->info.x == u->info.x || v->info.y == u->info.y)) {
+                // Se as coordenadas x ou y forem iguais, cria uma aresta
+                if (criarInserirAdj(v, u) != 0) return 1;
             }
         }
     }
-
-    // Mostra as ligações (lista de adjacência)
-    for (Vertice *v = grafo; v != NULL; v = v->proximo) {
-        printf("(%d,%d)", v->info.x, v->info.y);
-        for (Adj *adj = v->adj; adj != NULL; adj = adj->proxima) {
-            printf(" -> (%d,%d)", adj->destino->info.x, adj->destino->info.y);
-        }
-        printf("\n");
-    }
-
-    return 0;
+    return 0; // Sucesso
 }
 
 #pragma endregion
@@ -306,70 +242,6 @@ int dfs(Vertice *inicio) {
             printf("(%d,%d)\n", v->info.x, v->info.y);
             for (Adj *a = v->adj; a; a = a->proxima)
                 if (!a->destino->visitado) stack[topo++] = a->destino;
-        }
-    }
-    return 0;
-}
-
-#pragma endregion
-
-
-#pragma region BFS
-
-/**
- * @brief Realiza uma busca em largura (BFS) a partir de um vértice inicial.
- * @param inicio Vértice inicial para a busca.
- * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
- */
-int bfs(Vertice *inicio) {
-    if (!inicio) return 1;
-    for (Vertice *v = inicio; v; v = v->proximo) v->visitado = 0;
-
-    Vertice *fila[100];
-    int frente = 0, tras = 0;
-    fila[tras++]    = inicio;
-    inicio->visitado = 1;
-
-    while (frente < tras) {
-        Vertice *v = fila[frente++];
-        printf("(%d,%d)\n", v->info.x, v->info.y);
-        for (Adj *a = v->adj; a; a = a->proxima)
-            if (!a->destino->visitado) {
-                a->destino->visitado = 1;
-                fila[tras++]         = a->destino;
-            }
-    }
-    return 0;
-}
-
-#pragma endregion
-
-
-#pragma region Listar Interseções A e B
-
-/**
- * @brief Lista as interseções entre dois conjuntos de vértices.
- * @param grafo Cabeça da lista ligada de vértices.
- * @param freqA Frequência do conjunto A.
- * @param freqB Frequência do conjunto B.
- * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
- */
-int listarIntersecoes(Vertice *grafo, char freqA, char freqB) {
-    for (Vertice *v = grafo; v != NULL; v = v->proximo) {
-        for (Adj *a = v->adj; a != NULL; a = a->proxima) {
-            Vertice *dest = a->destino;
-
-            // Frequências diferentes e interligadas
-            if ((v->info.frequencia == freqA && dest->info.frequencia == freqB) ||
-                (v->info.frequencia == freqB && dest->info.frequencia == freqA)) {
-
-                // Para evitar mostrar o par 2 vezes (ex: A->0 e 0->A)
-                if (v->info.x < dest->info.x || (v->info.x == dest->info.x && v->info.y < dest->info.y)) {
-                    printf("Intersecção: %c(%d,%d) <-> %c(%d,%d)\n",
-                        v->info.frequencia, v->info.x, v->info.y,
-                        dest->info.frequencia, dest->info.x, dest->info.y);
-                }
-            }
         }
     }
     return 0;

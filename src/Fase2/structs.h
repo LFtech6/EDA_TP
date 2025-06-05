@@ -38,19 +38,6 @@ typedef struct Adj {
 
 #pragma endregion
 
-#pragma region Struct ArestaRemovida
-
-/**
- * @struct ArestaRemovida
- * @brief Estrutura que representa uma aresta removida do grafo.
- */
-typedef struct ArestaRemovida {
-    Vertice *origem;
-    Vertice *destino;
-    struct ArestaRemovida *proxima;
-} ArestaRemovida;
-
-#pragma endregion
 
 
 #endif
