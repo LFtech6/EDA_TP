@@ -92,6 +92,28 @@ int construirGrafo(Vertice *grafo);
 #pragma endregion
 
 
+#pragma region Mostrar Adjacências
+/**
+ * @brief Mostra as adjacências de cada vértice do grafo.
+ * @param grafo Cabeça da lista ligada de vértices.
+ * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
+ */
+void mostrarAdjacencias(Vertice *grafo);
+
+#pragma endregion
+
+
+#pragma region resetar V visitados
+
+/**
+ * @brief Reseta as flags de visitado para todos os vértices do grafo.
+ * @param grafo Ponteiro para a cabeça da lista de vértices.
+ */
+void resetvVisitados(Vertice *grafo);
+
+#pragma endregion
+
+
 #pragma region DFS
 
 /**
@@ -99,33 +121,19 @@ int construirGrafo(Vertice *grafo);
  * @param inicio Vértice inicial para a busca.
  * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
  */
-int dfs(Vertice *inicio);
+int dfs(Vertice *grafo, Vertice *inicio);
 
 #pragma endregion
 
 
 #pragma region BFS
-
 /**
  * @brief Realiza uma busca em largura (BFS) a partir de um vértice inicial.
+ * @param grafo Ponteiro para a cabeça da lista de vértices.
  * @param inicio Vértice inicial para a busca.
  * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
  */
-int bfs(Vertice *inicio);
-
-#pragma endregion
-
-
-#pragma region Listar Interseções A e B
-
-/**
- * @brief Lista as interseções entre dois conjuntos de vértices.
- * @param grafo Cabeça da lista ligada de vértices.
- * @param freqA Frequência do conjunto A.
- * @param freqB Frequência do conjunto B.
- * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
- */
-int listarIntersecoes(Vertice *grafo, char freqA, char freqB);
+int bfs(Vertice *grafo, Vertice *inicio);
 
 #pragma endregion
 

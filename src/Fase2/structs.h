@@ -31,7 +31,6 @@ typedef struct Vertice {
  * @brief Nó da lista de adjacência, representa as ligações com os vértices vizinhos.
  */
 typedef struct Adj {
-    struct Vertice* origem; //Vértice de origem da aresta
     struct Vertice* destino; //Vértice de destino da aresta
     struct Adj *proxima; //Próxima aresta na lista
 } Adj;

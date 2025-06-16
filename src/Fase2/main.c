@@ -29,7 +29,21 @@ int main() {
 
     printf("\nLista de Adjacências\n");
     construirGrafo(grafo);
+    mostrarAdjacencias(grafo);
     printf("\n");
+
+    // Criar e inserir um novo vértice
+    Antena a = {'A', 1, 1};
+    grafo = criarInserirVert(grafo, a);
+    Antena b = {'0', 2, 2};
+    grafo = criarInserirVert(grafo, b);
+    printf("Novo vértice inserido: (%c, %d, %d)\n", a.frequencia, a.x, a.y);
+    printf("Novo vértice inserido: (%c, %d, %d)\n", b.frequencia, b.x, b.y);
+
+    printf("\nLista de Adjacências Atualizada:\n");
+    mostrarAdjacencias(grafo);
+    printf("\n");
+
 
     // Remover um vértice
     int x = 6, y = 5;
@@ -38,7 +52,7 @@ int main() {
 
     
     printf("\nLista de Adjacências Atualizada:\n");
-    construirGrafo(grafo);
+    mostrarAdjacencias(grafo);
     printf("\n");
 
 
@@ -63,7 +77,7 @@ int main() {
     
 
     printf("\nLista de Adjacências Atualizada:\n");
-    construirGrafo(grafo);
+    mostrarAdjacencias(grafo);
     printf("\n");
 
     // Remover uma aresta manualmente
@@ -75,18 +89,27 @@ int main() {
         printf("Aresta removida entre (%d,%d) e (%d,%d)\n", 9, 9, 8, 8);
     }
 
-
     printf("\nLista de Adjacências Final:\n");
-    construirGrafo(grafo);
+    mostrarAdjacencias(grafo);
     printf("\n");
 
+    // Resetar as flags de visitados
+    resetvVisitados(grafo);
 
     printf("\nDFS a partir de (9,9):\n");
     Vertice *inicioDFS = encontraVertice(grafo, 9, 9);
     if (inicioDFS) {
-        dfs(inicioDFS);
+        dfs(grafo, inicioDFS); // Passa o grafo também para resetar visitados
     } else {
-        printf("Antena (9,9) não encontrada para DFS.\n");
+        printf("Vertice (9,9) não encontrado para fazer o DFS.\n");
+    }
+
+    printf("\nBFS a partir de (9,9):\n");
+    Vertice *inicioBFS = encontraVertice(grafo, 9, 9);
+    if (inicioBFS) {
+        bfs(grafo, inicioBFS);
+    } else {
+        printf("Vértice (9,9) não encontrado para fazer o BFS.\n");
     }
 
     // guardar o grafo num ficheiro binário

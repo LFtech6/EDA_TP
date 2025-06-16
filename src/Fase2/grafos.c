@@ -22,7 +22,7 @@
 int criarInserirAdj(Vertice *vertice, Vertice *destino) {
     Adj* novaAdj = (Adj*)malloc(sizeof(Adj));
     if (novaAdj == NULL) {
-        return -1;
+        return 1;
     }
     novaAdj->destino = destino;
     novaAdj->proxima = vertice->adj;
@@ -39,20 +39,35 @@ Vertice* criarInserirVert(Vertice *grafo, Antena info) {
     // Aloca memória para o novo vértice
     Vertice* novoVertice = (Vertice*)malloc(sizeof(Vertice));
     if (novoVertice == NULL) {
-        return grafo; // Se der erro, devolve o grafo como estava
+        return grafo; // Falha de alocação
     }
 
-    // Inicializa os campos do novo vértice
+    // Inicializa o novo vértice
     novoVertice->info = info;
-    novoVertice->visitado = 0; // Inicializa como não visitado
-    novoVertice->adj = NULL;   // Lista de adjacências vazia
+    novoVertice->visitado = 0;
+    novoVertice->adj = NULL;
+    novoVertice->proximo = NULL;
 
-    // Insere o novo vértice no início da lista de vértices
-    novoVertice->proximo = grafo;
-    grafo = novoVertice;
+    // Inserção no início da lista se for 'A'
+    if (info.frequencia == 'A') {
+        novoVertice->proximo = grafo;
+        return novoVertice;
+    }
 
-    return grafo; // Retorna o novo início da lista de vértices
+    // Inserção no fim da lista se for '0'
+    if (grafo == NULL) {
+        return novoVertice; // Lista estava vazia
+    }
+
+    Vertice *atual = grafo;
+    while (atual->proximo != NULL) {
+        atual = atual->proximo;
+    }
+    atual->proximo = novoVertice;
+
+    return grafo;
 }
+
 
 #pragma endregion
 
@@ -204,17 +219,61 @@ Vertice* encontraVertice(Vertice *grafo, int x, int y) {
  * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
  */
 int construirGrafo(Vertice *grafo) {
-    if (!grafo) return 1; // Se o grafo for NULL, retorna erro
-
-    for (Vertice *v = grafo; v; v = v->proximo) {
-        for (Vertice *u = grafo; u; u = u->proximo) {
-            if (v != u && (v->info.x == u->info.x || v->info.y == u->info.y)) {
-                // Se as coordenadas x ou y forem iguais, cria uma aresta
-                if (criarInserirAdj(v, u) != 0) return 1;
+    for (Vertice *v1 = grafo; v1 != NULL; v1 = v1->proximo) {
+        for (Vertice *v2 = grafo; v2 != NULL; v2 = v2->proximo) {
+            if (v1 != v2 && v1->info.frequencia == v2->info.frequencia) {
+                // Evita adicionar aresta duplicada
+                int jaLigado = 0;
+                for (Adj *adj = v1->adj; adj != NULL; adj = adj->proxima) {
+                    if (adj->destino == v2) {
+                        jaLigado = 1;
+                        break;
+                    }
+                }
+                if (!jaLigado) {
+                    if (criarInserirAdj(v1, v2) != 0) {
+                        return 1; // Erro ao criar adjacência
+                    }
+                }
             }
         }
     }
     return 0; // Sucesso
+}
+
+#pragma endregion
+
+
+#pragma region Mostrar Adjacências
+
+/**
+ * @brief Mostra as adjacências de cada vértice do grafo.
+ * @param grafo Cabeça da lista ligada de vértices.
+ * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
+ */
+void mostrarAdjacencias(Vertice *grafo) {
+for (Vertice *v = grafo; v != NULL; v = v->proximo) {
+        printf("(%d,%d)", v->info.x, v->info.y);
+        for (Adj *adj = v->adj; adj != NULL; adj = adj->proxima) {
+            printf(" -> (%d,%d)", adj->destino->info.x, adj->destino->info.y);
+        }
+        printf("\n");
+    }
+}
+
+#pragma endregion
+
+
+#pragma region resetar V visitados
+
+/**
+ * @brief Reseta as flags de visitado para todos os vértices do grafo.
+ * @param grafo Ponteiro para a cabeça da lista de vértices.
+ */
+void resetvVisitados(Vertice *grafo) {
+    for (Vertice *v = grafo; v; v = v->proximo) {
+        v->visitado = 0;
+    }
 }
 
 #pragma endregion
@@ -227,51 +286,84 @@ int construirGrafo(Vertice *grafo) {
  * @param inicio Vértice inicial para a busca.
  * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
  */
-int dfs(Vertice *inicio) {
-    if (!inicio) return 1;
-    for (Vertice *v = inicio; v; v = v->proximo) v->visitado = 0;
+int dfs(Vertice *grafo, Vertice *inicio) {
+    
+    if (inicio == NULL) return 1; // Se o vértice inicial for NULL, retorna erro
 
+    // cria o stack para armazenar os vértices a visitar
     Vertice *stack[100];
     int topo = 0;
+    
+    // puxa o vertice inicial para o stack e marca como visitado
     stack[topo++] = inicio;
-
-    while (topo) {
+    inicio->visitado = 1;
+    
+    // enquanto o stack nao estiver vazio
+    while (topo > 0) {
+        // pega no vértice do topo da stack
         Vertice *v = stack[--topo];
-        if (!v->visitado) {
-            v->visitado = 1;
-            printf("(%d,%d)\n", v->info.x, v->info.y);
-            for (Adj *a = v->adj; a; a = a->proxima)
-                if (!a->destino->visitado) stack[topo++] = a->destino;
+        
+        //print o vertice visitado
+        printf("(%d,%d)\n", v->info.x, v->info.y);
+        
+        // puxa os nao visitados para o stack
+        for (Adj *adj = v->adj; adj != NULL; adj = adj->proxima) {
+            Vertice *vizinho = adj->destino;
+            if (!vizinho->visitado) {
+                stack[topo++] = vizinho;
+                vizinho->visitado = 1; // sempre que puxar um vértice para o stack, marca como visitado
+            }
         }
     }
+    
     return 0;
 }
 
 #pragma endregion
 
 
-#pragma region Libertar Memória
+#pragma region BFS
 
 /**
- * @brief Liberta a memória alocada para o grafo.
- * @param grafo Ponteiro para a cabeça da lista de vértices.
- * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
+ * @brief Realiza uma busca em largura (BFS) a partir de um vértice inicial.
+ * @param grafo Ponteiro para a cabeça da lista de vértices (para resetar visitados).
+ * @param inicio Vértice inicial para a busca.
+ * @return 0 se sucesso, 1 caso contrário.
  */
-int libertarGrafo(Vertice *grafo) {
-    while (grafo != NULL) {
-        Vertice *temp = grafo;
-        grafo = grafo->proximo;
-
-        // Liberta as adjacências
-        Adj *adj = temp->adj;
-        while (adj != NULL) {
-            Adj *tempAdj = adj;
-            adj = adj->proxima;
-            free(tempAdj);
+int bfs(Vertice *grafo, Vertice *inicio) {
+    if (!inicio) return 1;
+    
+    // Criar fila para BFS
+    Vertice *fila[100];
+    int frente = 0, tras = 0;
+    
+    // regra 1: inicialização
+    // Colocar o nó inicial na fila e marcar como visitado
+    fila[tras++] = inicio;
+    inicio->visitado = 1;
+    
+    // regra 2 / 3: exploração enquanto a fila não estiver vazia / Repetir regra 1 e regra 2 até que a fila fique vazia
+    while (frente < tras) {
+        // Retirar um nó da fila e visitá-lo (imprimir o seu valor)
+        Vertice *v = fila[frente++];
+        
+        // Visitar o vértice atual (imprimir)
+        printf("(%d,%d)\n", v->info.x, v->info.y);
+        
+        // Para cada vizinho não visitado do nó retirado da fila:
+        for (Adj *adj = v->adj; adj != NULL; adj = adj->proxima) {
+            Vertice *vizinho = adj->destino;
+            
+            // Verificar se o vizinho ainda não foi visitado
+            if (!vizinho->visitado) {
+                // Colocar o vizinho na fila
+                fila[tras++] = vizinho;
+                // Marcar o vizinho como visitado
+                vizinho->visitado = 1;
+            }
         }
-
-        free(temp);
     }
+       
     return 0;
 }
 
@@ -303,6 +395,34 @@ int guardarGrafoBinario(const char* filename, Vertice* grafo) {
     fwrite(&fim, sizeof(Antena), 1, file);
 
     fclose(file);
+    return 0;
+}
+
+#pragma endregion
+
+
+#pragma region Libertar Memória
+
+/**
+ * @brief Liberta a memória alocada para o grafo.
+ * @param grafo Ponteiro para a cabeça da lista de vértices.
+ * @return 0 se o grafo foi guardado com sucesso, 1 caso contrário.
+ */
+int libertarGrafo(Vertice *grafo) {
+    while (grafo != NULL) {
+        Vertice *temp = grafo;
+        grafo = grafo->proximo;
+
+        // Liberta as adjacências
+        Adj *adj = temp->adj;
+        while (adj != NULL) {
+            Adj *tempAdj = adj;
+            adj = adj->proxima;
+            free(tempAdj);
+        }
+
+        free(temp);
+    }
     return 0;
 }
 
